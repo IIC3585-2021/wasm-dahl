@@ -2,23 +2,23 @@
 #include <stdlib.h>
 
 #define INFINITY 9999
-#define MAX 5
+#define MAX 6
   
-int dijkstra(int * memoria)
+int dijkstra(int * memoria, int** G)
 {
-  int n = 5;
+  int n = 6;
   int startnode = 0;
  
 	int cost[MAX][MAX],distance[MAX],pred[MAX];
 	int visited[MAX],count,mindistance,nextnode,i,j;
 	
 	
-  int G[5][5];
+//  int G[5][5];
 	
 	//pred[] stores the predecessor of each node
 	//count gives the number of nodes seen so far
 	//create the cost matrix
-	G[0][0] = 0;
+	/*G[0][0] = 0;
   G[0][1] = 10;
   G[0][2] = 0;
   G[0][3] = 30;
@@ -48,7 +48,7 @@ int dijkstra(int * memoria)
   G[4][3] = 60;
   G[4][4] = 0;
  printf("something"); 
-
+*/
 
  for(i=0;i<n;i++)
 		for(j=0;j<n;j++)
@@ -96,9 +96,6 @@ int dijkstra(int * memoria)
   //Process* process = calloc(1, sizeof(Process));
   //int* arreglo = calloc(100, sizeof(int));
 
-  FILE * fp;
-  fp = fopen("./output.txt", "w");
-
 	//print the path and distance of each node
 	for(i = 0; i < n; i++){
 		if ( i != startnode)
@@ -114,15 +111,11 @@ int dijkstra(int * memoria)
 			{
 				j = pred[j];
 				printf("<-%d",j);
-				fprintf(fp, "<-%d",j);
 			} while( j!= startnode);
 
       //arreglo[i] = distance[i];
+		}
 	}
-	fprintf(fp, "\n");
-	}
-
-  fclose(fp);
 
   return 999;
 
