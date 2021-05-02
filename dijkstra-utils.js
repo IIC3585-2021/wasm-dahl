@@ -10,24 +10,35 @@ Module().then(function(mymod) {
   }
 )
 
+const getArrayFromPtr = (myModule, ptr) => {
+  let resultMatrix = [];
+  for (let i = 0; i < 5; i++) {
+    resultMatrix[i] = myModule.getValue(ptr + i * 4, "i32");
+  }
+  return resultMatrix;
+}
+
+
 const cRunner = (Module) => {
   //let graph = getGraph();
-		
+
+  const arrayPtr = Module._calloc(10, 4);
 
   let startTime = window.performance.now();
-  let result = Module._dijkstra(7, 0);
+  let result = Module._dijkstra(arrayPtr);
   let endTime = window.performance.now();
-
   console.log('result', result);
-  return result, endTime - startTime
+
+  let matrix = getArrayFromPtr(Module, arrayPtr);
+
+  console.log('matrix', matrix);
+
+  return [999, 999];
 }
 
 const addToTable = (resultArr) => {
   const table = document.getElementById("result-table");
   let row = table.insertRow(-1);
   let cell1 = row.insertCell(0);
-  let cell2 = row.insertCell(1);
-  let cell3 = row.insertCell(2);
-  cell2.innerHTML = `${resultArr[0]}`;
-  cell3.innerHTML = `${resultArr[1]} ms`;
+  cell1.innerHTML = `${resultArr[0]}`;
 }

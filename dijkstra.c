@@ -4,7 +4,7 @@
 #define INFINITY 9999
 #define MAX 5
   
-void main()
+int dijkstra(int * memoria)
 {
   int n = 5;
   int startnode = 0;
@@ -95,25 +95,35 @@ void main()
 
   //Process* process = calloc(1, sizeof(Process));
   //int* arreglo = calloc(100, sizeof(int));
- 
+
+  FILE * fp;
+  fp = fopen("./output.txt", "w");
+
 	//print the path and distance of each node
-	for(i = 0; i < n; i++)
+	for(i = 0; i < n; i++){
 		if ( i != startnode)
 		{
 			printf("\nDistance of node%d=%d",i,distance[i]);
 			printf("\nPath=%d",i);
+			fprintf(fp, "\nPath=%d",i);
+
+      memoria[i] = distance[i];
 			
 			j = i;
 			do
 			{
 				j = pred[j];
 				printf("<-%d",j);
+				fprintf(fp, "<-%d",j);
 			} while( j!= startnode);
 
       //arreglo[i] = distance[i];
 	}
+	fprintf(fp, "\n");
+	}
 
+  fclose(fp);
 
-  //return distance;
+  return 999;
 
 }
