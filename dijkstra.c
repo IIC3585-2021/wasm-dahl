@@ -13,7 +13,7 @@ void main()
 	int visited[MAX],count,mindistance,nextnode,i,j;
 	
 	
-  long long G[5][5];
+  int G[5][5];
 	
 	//pred[] stores the predecessor of each node
 	//count gives the number of nodes seen so far
@@ -31,7 +31,7 @@ void main()
   G[1][4] = 0;
 
   G[2][0] = 0;
-  G[2][1] = 0;
+  G[2][1] = 50;
   G[2][2] = 0;
   G[2][3] = 20;
   G[2][4] = 10;
@@ -47,14 +47,12 @@ void main()
   G[4][2] = 10;
   G[4][3] = 60;
   G[4][4] = 0;
-  
+ printf("something"); 
 
-	for (i = 0; i < n; i++)
-		for( j = 0; j < n; j++)
 
-      printf(" i: %d, j: %d  ---> %lld\n", i, j, G[i][j]);
-
-			if( G[i][j] == 0 )
+ for(i=0;i<n;i++)
+		for(j=0;j<n;j++)
+			if(G[i][j]==0)
 				cost[i][j]=INFINITY;
 			else
 				cost[i][j]=G[i][j];
