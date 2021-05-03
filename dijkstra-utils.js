@@ -10,9 +10,9 @@ Module().then(function (mymod) {
   };
 });
 
-const getArrayFromPtr = (myModule, ptr) => {
+const getArrayFromPtr = (myModule, ptr, N) => {
   let resultMatrix = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < N; i++) {
     resultMatrix[i] = myModule.getValue(ptr + i * 4, "i32");
   }
   return resultMatrix;
@@ -26,14 +26,30 @@ const getArrayFromPtr = (myModule, ptr) => {
   [100, 0, 10, 60, 0],
 ];
 */
-
+/*
 const graph = [
   [0, 10, 0, 30, 100, 0],
   [10, 0, 50, 0, 0, 20],
   [0, 50, 0, 20, 10, 10],
   [30, 0, 20, 0, 60, 0],
   [100, 0, 10, 60, 0, 10],
-  [20, 0, 10, 60, 0, 10],
+  [20, 0, 10, 60, 0, 0],
+];*/
+
+/*const graph = [
+  [0, 10, 0, 30, 100, 20],
+  [10, 0, 50, 0, 0, 20],
+  [0, 50, 0, 20, 10, 10],
+  [30, 0, 20, 0, 60, 60],
+  [100, 0, 10, 60, 0, 0],
+  [20, 0, 10, 60, 0, 0],
+];
+*/
+const graph = [
+  [0, 4, 1, 3],
+  [4, 0, 2, 1],
+  [1, 2, 0, 5],
+  [3, 1, 5, 0],
 ];
 
 const makePtrOfArray = (myModule, N) => {
@@ -52,14 +68,14 @@ const cRunner = (Module) => {
   //let graph = getGraph();
 
   const arrayPtr = Module._calloc(10, 4);
-  const G = makePtrOfArray(Module, 6);
+  const G = makePtrOfArray(Module, 4);
 
   let startTime = window.performance.now();
   let result = Module._dijkstra(arrayPtr, G);
   let endTime = window.performance.now();
   console.log("result", result);
 
-  let matrix = getArrayFromPtr(Module, arrayPtr);
+  let matrix = getArrayFromPtr(Module, arrayPtr, 5);
 
   console.log("matrix", matrix);
 
