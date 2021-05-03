@@ -1,6 +1,7 @@
 import Module from "./tspWASM.js";
 
 const calcBtn = document.getElementById("calc-btn");
+const matrixInput = document.getElementById("matrix-input");
 // Obtiene desde memoria los resultados del script en C
 const getArrayFromPtr = (myModule, ptr, N) => {
   let resultMatrix = [];
@@ -11,7 +12,7 @@ const getArrayFromPtr = (myModule, ptr, N) => {
 };
 
 // Setea en memoria la matriz para que sea accesible por el script en C
-const graph = [
+/*const graph = [
   [0, 4, 1, 3],
   [4, 0, 2, 1],
   [1, 2, 0, 5],
@@ -21,7 +22,9 @@ const graph = [
 const dim = 4;
 const dimResult = dim + 1;
 
-const makePtrOfArray = (myModule, N) => {
+*/
+
+const makePtrOfArray = (myModule, N, graph) => {
   const arrayPtr = myModule._calloc(N, 4);
   for (let i = 0; i < N; i++) {
     let rowsPtr = myModule._calloc(N, 4);
@@ -34,7 +37,7 @@ const makePtrOfArray = (myModule, N) => {
 };
 
 // Ejecuta el script en C
-const cRunner = (Module, arrayPtr, G) => {
+const cRunner = (Module, arrayPtr, G, dim) => {
   let startTime = window.performance.now();
   let result = Module._tsp(arrayPtr, G, dim);
   let endTime = window.performance.now();
@@ -46,9 +49,12 @@ const cRunner = (Module, arrayPtr, G) => {
 // Hace interactuar en JS los modulos exportados con wasm.
 Module().then(function (mymod) {
   calcBtn.onclick = () => {
+    const parsedInputGraph = JSON.parse(matrixInput.value);
+    const dim = parsedInputGraph[0].length;
+    const dimResult = dim + 1;
     const arrayPtr = mymod._calloc(dim, 4);
-    const G = makePtrOfArray(mymod, dim);
-    let cTime = cRunner(mymod, arrayPtr, G);
+    const G = makePtrOfArray(mymod, dim, parsedInputGraph);
+    let cTime = cRunner(mymod, arrayPtr, G, dim);
     let matrix = getArrayFromPtr(mymod, arrayPtr, dimResult);
     console.log(`cresult - ctime ${matrix} ${cTime}`);
     addToTable(matrix, cTime);
