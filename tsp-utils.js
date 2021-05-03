@@ -13,6 +13,16 @@ const getArrayFromPtr = (myModule, ptr, N) => {
 
 // Setea en memoria la matriz para que sea accesible por el script en C
 /*const graph = [
+  [0, 10, 0, 8, 7, 0, 0],
+  [10, 0, 12, 7, 0, 0, 0],
+  [0, 12, 0, 6, 0, 7, 5],
+  [8, 7, 6, 0, 9, 4, 0],
+  [7, 0, 0, 9, 0, 0, 11],
+  [0, 0, 7, 4, 0, 0, 3],
+  [0, 0, 5, 0, 11, 3, 0],
+];
+*/
+/*const graph = [
   [0, 4, 1, 3],
   [4, 0, 2, 1],
   [1, 2, 0, 5],
@@ -52,7 +62,7 @@ Module().then(function (mymod) {
     const parsedInputGraph = JSON.parse(matrixInput.value);
     const dim = parsedInputGraph[0].length;
     const dimResult = dim + 1;
-    const arrayPtr = mymod._calloc(dim, 4);
+    const arrayPtr = mymod._calloc(100 * dim, 4);
     const G = makePtrOfArray(mymod, dim, parsedInputGraph);
     let cTime = cRunner(mymod, arrayPtr, G, dim);
     let matrix = getArrayFromPtr(mymod, arrayPtr, dimResult);
