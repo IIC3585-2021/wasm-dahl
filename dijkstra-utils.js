@@ -66,5 +66,5 @@ const addToTable = (resultArr, execTime) => {
   let cell3 = row.insertCell(2);
   cell1.innerHTML = `${resultArr[0]}`;
   cell2.innerHTML = `${resultArr.slice(1).join("->")}`;
-  cell3.innerHTML = `${execTime}`;
+  cell3.innerHTML = `${execTime} ms`;
 };
