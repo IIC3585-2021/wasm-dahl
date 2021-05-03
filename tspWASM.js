@@ -30,9 +30,9 @@ Module['ready'] = new Promise(function(resolve, reject) {
   readyPromiseReject = reject;
 });
 
-      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_dijkstra')) {
-        Object.defineProperty(Module['ready'], '_dijkstra', { configurable: true, get: function() { abort('You are getting _dijkstra on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
-        Object.defineProperty(Module['ready'], '_dijkstra', { configurable: true, set: function() { abort('You are setting _dijkstra on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_tsp')) {
+        Object.defineProperty(Module['ready'], '_tsp', { configurable: true, get: function() { abort('You are getting _tsp on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_tsp', { configurable: true, set: function() { abort('You are setting _tsp on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
       }
     
 
@@ -1608,7 +1608,7 @@ function createExportWrapper(name, fixedasm) {
   };
 }
 
-var wasmBinaryFile = 'dijkstraWASM.wasm';
+var wasmBinaryFile = 'tspWASM.wasm';
 if (!isDataURI(wasmBinaryFile)) {
   wasmBinaryFile = locateFile(wasmBinaryFile);
 }
@@ -1946,7 +1946,7 @@ var asm = createWasm();
 var ___wasm_call_ctors = Module["___wasm_call_ctors"] = createExportWrapper("__wasm_call_ctors");
 
 /** @type {function(...*):?} */
-var _dijkstra = Module["_dijkstra"] = createExportWrapper("dijkstra");
+var _tsp = Module["_tsp"] = createExportWrapper("tsp");
 
 /** @type {function(...*):?} */
 var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");

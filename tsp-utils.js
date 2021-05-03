@@ -1,15 +1,7 @@
-import Module from "./dijkstraWASM.js";
+import Module from "./tspWASM.js";
 
 const calcBtn = document.getElementById("calc-btn");
-
-Module().then(function (mymod) {
-  calcBtn.onclick = () => {
-    let cResult,
-      cTime = cRunner(mymod);
-    addToTable(cResult, cTime);
-  };
-});
-
+// Obtiene desde memoria los resultados del script en C
 const getArrayFromPtr = (myModule, ptr, N) => {
   let resultMatrix = [];
   for (let i = 0; i < N; i++) {
@@ -18,12 +10,16 @@ const getArrayFromPtr = (myModule, ptr, N) => {
   return resultMatrix;
 };
 
+// Setea en memoria la matriz para que sea accesible por el script en C
 const graph = [
   [0, 4, 1, 3],
   [4, 0, 2, 1],
   [1, 2, 0, 5],
   [3, 1, 5, 0],
 ];
+
+const dim = 4;
+const dimResult = dim + 1;
 
 const makePtrOfArray = (myModule, N) => {
   const arrayPtr = myModule._calloc(N, 4);
@@ -37,27 +33,29 @@ const makePtrOfArray = (myModule, N) => {
   return arrayPtr;
 };
 
-const cRunner = (Module) => {
-  //let graph = getGraph();
-
-  const arrayPtr = Module._calloc(10, 4);
-  const G = makePtrOfArray(Module, 4);
-
+// Ejecuta el script en C
+const cRunner = (Module, arrayPtr, G) => {
   let startTime = window.performance.now();
-  let result = Module._dijkstra(arrayPtr, G, 4);
+  let result = Module._tsp(arrayPtr, G, dim);
   let endTime = window.performance.now();
   console.log("result", result);
-
-  let matrix = getArrayFromPtr(Module, arrayPtr, 5);
-
-  console.log("matrix", matrix);
-
   const resultTime = endTime - startTime;
-  addToTable(matrix, resultTime);
-
-  return [999, 999];
+  return resultTime;
 };
 
+// Hace interactuar en JS los modulos exportados con wasm.
+Module().then(function (mymod) {
+  calcBtn.onclick = () => {
+    const arrayPtr = mymod._calloc(dim, 4);
+    const G = makePtrOfArray(mymod, dim);
+    let cTime = cRunner(mymod, arrayPtr, G);
+    let matrix = getArrayFromPtr(mymod, arrayPtr, dimResult);
+    console.log(`cresult - ctime ${matrix} ${cTime}`);
+    addToTable(matrix, cTime);
+  };
+});
+
+// Rellena el HTML con los resultados
 const addToTable = (resultArr, execTime) => {
   const table = document.getElementById("result-table");
   let row = table.insertRow(-1);

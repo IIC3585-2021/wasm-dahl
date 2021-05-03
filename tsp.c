@@ -51,7 +51,7 @@ void mincost(int city, int* memoria, int k,int** ary)
 	memoria[0] = cost;
 }
  
-int dijkstra(int* memoria, int** ary, int dimension)
+int tsp(int* memoria, int** ary, int dimension)
 {
 	cost = 0;
 	n = dimension;
