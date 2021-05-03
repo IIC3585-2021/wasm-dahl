@@ -1,43 +1,12 @@
+// El código está FUERTEMENTE basado en este https://www.thecrazyprogrammer.com/2017/05/travelling-salesman-problem.html
+
 #include<stdio.h>
 
 #define MAX 4
  
-int ary[MAX][MAX],completed[MAX],n,cost=0;
+int ary[MAX][MAX],completed[MAX],n,cost;
  
-void takeInput()
-{
-	int i,j;
- 
-	n = MAX;
- 
-	for(i=0;i < n;i++)
-	{
-		completed[i]=0;
-	} 
-
-    ary[0][0] = 0;
-    ary[0][1] = 4;
-    ary[0][2] = 1;
-    ary[0][3] = 3;
-
-    ary[1][0] = 4;
-    ary[1][1] = 0;
-    ary[1][2] = 2;
-    ary[1][3] = 1;
-
-    ary[2][0] = 1;
-    ary[2][1] = 2;
-    ary[2][2] = 0;
-    ary[2][3] = 5;
-
-    ary[3][0] = 3;
-    ary[3][1] = 1;
-    ary[3][2] = 5;
-    ary[3][3] = 0;
-
-}
-
-int least(int c)
+int least(int c, int** ary)
 {
 	int i,nc=999;
 	int min=999,kmin;
@@ -59,7 +28,7 @@ int least(int c)
 	return nc;
 }
 
-void mincost(int city, int* memoria, int k)
+void mincost(int city, int* memoria, int k,int** ary)
 {
 	int i, ncity;
  
@@ -67,7 +36,7 @@ void mincost(int city, int* memoria, int k)
  
 	printf("%d--->",city+1);
 	memoria[k] = city+1;
-	ncity = least(city);
+	ncity = least(city, ary);
  
 	if(ncity==999)
 	{
@@ -78,18 +47,25 @@ void mincost(int city, int* memoria, int k)
 		return;
 	}
  
-	mincost(ncity, memoria, k+1);
+	mincost(ncity, memoria, k+1, ary);
 	memoria[0] = cost;
 }
  
-int dijkstra(int* memoria)
+int dijkstra(int* memoria, int** ary, int dimension)
 {
-	takeInput();
+	cost = 0;
+	n = dimension;
+	int i;
+	for(i=0;i < n;i++)
+	{
+		completed[i]=0;
+	} 
  
 	printf("\n\nThe Path is:\n");
-	mincost(0, memoria, 1); //passing 0 because starting vertex
+	mincost(0, memoria, 1,ary); //passing 0 because starting vertex
  
 	printf("\n\nMinimum cost is %d\n ",cost);
  
+
 	return 0;
 }
